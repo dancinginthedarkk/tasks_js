@@ -18,5 +18,6 @@ function customSlice(array, start = 0, end = array.length) {
 
 const numbers = [1, 2, 3, 4, 5];
 
-console.log(customSlice(numbers, -4, -2));
+console.log(customSlice(numbers, 1, -2));
+
 
