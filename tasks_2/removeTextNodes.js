@@ -10,7 +10,7 @@
 function removeTextNodes(where) {
     const nodesToRemove = [];
 
-    let current = where.firstChild;
+    let current = where.firstElementChild;
 
     while (current != null) {
         if (current.nodeType === Node.TEXT_NODE) {

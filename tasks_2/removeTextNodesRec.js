@@ -5,16 +5,13 @@
  */
 
 function removeTextNodesRec(where) {
-    let child = where.firstChild;
+    for (let i = 0; i < where.childNodes.length; i++) {
+        if (where.childNodes[i].nodeType === Node.TEXT_NODE) {
+            where.removeChild(where.childNodes[i]);
+            i--;
 
-    while (child) {
-        if (child.nodeType === Node.TEXT_NODE) {
-            where.removeChild(child);
-            child = where.firstChild;
-
-        } else if (child.nodeType === Node.ELEMENT_NODE) {
-            removeTextNodesRec(child);
-            child = child.nextSibling;
+        } else if (where.childNodes[i].nodeType === Node.ELEMENT_NODE) {
+            removeTextNodesRec(where.childNodes[i]);
         }
     }
 }

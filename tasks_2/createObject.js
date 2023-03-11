@@ -14,7 +14,7 @@
  */
 
 function createObject(number = 0) {
-    if (typeof number !== "number" || isNaN(number)) {
+    if (typeof number !== "number") {
         throw new Error("number is not a number");
     }
 

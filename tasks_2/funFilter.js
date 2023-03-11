@@ -8,7 +8,7 @@
  */
 
 function funFilter(arr, fn) {
-    if (!Array.isArray(arr) || arr.length === 0) {
+    if (!(arr instanceof Array) || arr.length === 0) {
         throw new Error("empty array");
     }
 
@@ -32,9 +32,9 @@ let filterFn = function (n) {
 console.log(funFilter(arr, filterFn));
 
 let arr2 = [];
-console.log(funFilter(arr2, filterFn));
+// console.log(funFilter(arr2, filterFn));
 
 let arr3 = [1, 2, 3, 4, 5];
-let filterFn3 = "blablabla";
+let filterFn3 = "bla bla bla";
 
-console.log(funFilter(arr3, filterFn3));
+// console.log(funFilter(arr3, filterFn3));
