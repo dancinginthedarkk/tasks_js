@@ -1,0 +1,117 @@
+<!--Создать редактор cookie с возможностью фильтрации-->
+
+<!--На странице должна быть таблица со списком имеющихся cookie:-->
+<!-- - имя-->
+<!-- - значение-->
+<!-- - удалить (при нажатии на кнопку, выбранная cookie удаляется из браузера и-->
+<!--таблицы)-->
+
+<!--На странице должна быть форма для добавления новой cookie:-->
+<!-- - имя-->
+<!-- - значение-->
+<!-- - добавить (при нажатии на кнопку, в браузер и таблицу добавляется новая cookie с-->
+<!--указанным именем и значением)-->
+
+<!--Если добавляется cookie с именем уже существующей cookie, то ее значение в-->
+<!--браузере и таблице должно быть обновлено-->
+
+<!--На странице должно быть текстовое поле для фильтрации cookie-->
+
+<!--В таблице должны быть только те cookie, в имени или значении которых есть-->
+<!--введенное значение-->
+
+<!--Если в поле фильтра пусто, то должны выводиться все доступные cookie-->
+<!--Если добавляемая cookie не соответствует фильтру, то она должна быть добавлена-->
+<!--только в браузер, но не в таблицу-->
+<!--Если добавляется cookie, с именем уже существующей cookie и ее новое значение не-->
+<!--соответствует фильтру, то ее значение должно быть обновлено в браузере, а из-->
+<!--таблицы cookie должна быть удалена-->
+<!--Запрещено использовать сторонние библиотеки. Разрешено пользоваться только тем,-->
+<!--что встроено в браузер-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Cookie</title>
+</head>
+<body>
+<h1>Редактор cookie</h1>
+<form>
+  <div>
+    <label for="cookie-name">Name:</label>
+    <input type="text" id="cookie-name" name="cookie-name">
+  </div>
+  <div>
+    <label for="cookie-value">Value:</label>
+    <input type="text" id="cookie-value" name="cookie-value">
+  </div>
+  <button type="button" id="add-cookie">Add Cookie</button>
+</form>
+<div>
+  <label for="cookie-filter">Filter:</label>
+  <input type="text" id="cookie-filter" name="cookie-filter"><br><br>
+</div>
+<table id="cookie-table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Delete</th>
+  </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<script>
+  function addCookie() {
+    let cookieName = document.getElementById("cookie-name").value;
+    let cookieValue = document.getElementById("cookie-value").value;
+    document.cookie = cookieName + "=" + cookieValue;
+    updateTable();
+  }
+
+  function deleteCookie(cookieName) {
+    document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    updateTable();
+  }
+
+  function updateTable() {
+    let tableBody = document.getElementById("cookie-table").getElementsByTagName("tbody")[0];
+    let filter = document.getElementById("cookie-filter").value.toLowerCase();
+    tableBody.innerHTML = "";
+
+    document.cookie.split(";").forEach((cookie) => {
+      let parts = cookie.split("=");
+      let name = parts[0].trim();
+      let value = parts[1].trim();
+
+      if (name.toLowerCase().indexOf(filter) === -1 && value.toLowerCase().indexOf(filter) === -1) {
+        return;
+      }
+
+      let row = tableBody.insertRow();
+      let nameCell = row.insertCell(0);
+      let valueCell = row.insertCell(1);
+      let deleteCell = row.insertCell(2);
+
+      const deleteButton = document.createElement("button");
+
+      nameCell.textContent = name;
+      valueCell.textContent = value;
+      deleteButton.textContent = "Delete";
+
+      deleteButton.addEventListener("click", () => deleteCookie(name));
+      deleteCell.appendChild(deleteButton);
+    });
+  }
+
+  document.getElementById("add-cookie").addEventListener("click", addCookie);
+  document.getElementById("cookie-filter").addEventListener("keyup", updateTable);
+
+  updateTable();
+</script>
+</body>
+</html>
